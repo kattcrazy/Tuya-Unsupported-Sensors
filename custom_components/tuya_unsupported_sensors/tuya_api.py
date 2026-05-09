@@ -512,7 +512,17 @@ class TuyaAPIClient:
                 if not isinstance(properties, list):
                     raise TuyaDataError(f"Expected list of properties, got: {type(properties)}")
                 
-                output = {prop.get("code"): prop.get("value") for prop in properties if "code" in prop}
+                def _normalize_property_value(raw: Any) -> Any:
+                    """Flatten common Tuya IoT shapes (enum/value payloads)."""
+                    if isinstance(raw, dict) and "value" in raw:
+                        return raw["value"]
+                    return raw
+
+                output = {
+                    prop.get("code"): _normalize_property_value(prop.get("value"))
+                    for prop in properties
+                    if "code" in prop
+                }
                 
                 _LOGGER.debug("Retrieved %d properties for device %s", len(output), device_id)
                 return output

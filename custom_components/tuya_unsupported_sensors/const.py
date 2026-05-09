@@ -133,7 +133,7 @@ BINARY_SENSOR_PROPERTY_CODES = {
 }
 
 BINARY_SENSOR_VALUE_MAP = {
-    "on": ["true", "1", "open", "pir", "presence"],
-    "off": ["false", "0", "close", "none", "absence"],
+    "on": ["true", "1", "open", "pir", "presence", "occupied"],
+    "off": ["false", "0", "close", "none", "absence", "no_presence", "unoccupied", "away"],
 }
 

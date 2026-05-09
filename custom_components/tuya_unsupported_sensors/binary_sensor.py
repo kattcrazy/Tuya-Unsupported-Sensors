@@ -8,7 +8,7 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -153,9 +153,9 @@ def _resolve_binary_unique_id(
     legacy_unique_id = f"{slugify(device_name)}_{slugify(friendly_name)}"
     stable_unique_id = f"{slugify(device_id)}_{slugify(property_code)}"
 
-    if er.async_get_entity_id("binary_sensor", DOMAIN, legacy_unique_id):
+    if entity_registry.async_get_entity_id("binary_sensor", DOMAIN, legacy_unique_id):
         return legacy_unique_id
-    if er.async_get_entity_id("binary_sensor", DOMAIN, stable_unique_id):
+    if entity_registry.async_get_entity_id("binary_sensor", DOMAIN, stable_unique_id):
         return stable_unique_id
     return stable_unique_id
 
@@ -173,81 +173,79 @@ async def async_setup_entry(
     discovered_devices = hass.data[DOMAIN][entry.entry_id].get("devices", {})
     entity_registry = er.async_get(hass)
     device_registry = dr.async_get(hass)
-    
-    entities = []
-    
+
     binary_codes = set()
     for codes in BINARY_SENSOR_PROPERTY_CODES.values():
         binary_codes.update(codes)
-    
-    for device_id in device_ids:
-        device_info = discovered_devices.get(device_id, {})
-        # Use Tuya customName first, then name, then fallback
-        device_name = device_info.get("customName") or device_info.get("name", f"Device {device_id}")
-        device_model = device_info.get("product_name", "Unknown")
-        
-        device_data = coordinator.data.get(device_id, {})
-        
-        if not device_data:
-            _LOGGER.warning(
-                "No data available for device %s (%s). Device may be offline or have no properties.",
-                device_id,
-                device_name
+
+    # Track (device_id, property_code_lower) so coordinator callbacks do not duplicate entities.
+    created_entities: set[tuple[str, str]] = set()
+
+    @callback
+    def _create_new_entities() -> None:
+        """Create binary sensor entities; rerun on each coordinator update.
+
+        Matches the sensor platform pattern so occupancy/presence enums still appear if the
+        binary_sensor platform initially failed (e.g. API misuse) or properties arrive later.
+        """
+        entities: list[ExtraTuyaBinarySensor] = []
+
+        for device_id in device_ids:
+            device_info = discovered_devices.get(device_id, {})
+            device_name = device_info.get("customName") or device_info.get(
+                "name", f"Device {device_id}"
             )
-            continue
-        
-        _LOGGER.debug(
-            "Processing device %s (%s) with properties: %s",
-            device_id,
-            device_name,
-            list(device_data.keys())
-        )
-        
-        for property_code, value in device_data.items():
-            property_code_lower = property_code.lower()
-            
-            # Skip non-sensor properties
-            if property_code_lower in ("temp_unit_convert",):
-                continue
-            
-            # Prioritize known binary sensor property codes
-            if property_code_lower in binary_codes:
-                unique_id = _resolve_binary_unique_id(
-                    entity_registry, device_registry, entry.entry_id, device_id, device_name, property_code
-                )
-                entity = ExtraTuyaBinarySensor(
-                    coordinator=coordinator,
-                    device_id=device_id,
-                    device_name=device_name,
-                    device_model=device_model,
-                    property_code=property_code,
-                    unique_id=unique_id,
-                )
-                entities.append(entity)
-            elif _is_binary_value(value):
-                # Also create binary sensors for other binary values
-                unique_id = _resolve_binary_unique_id(
-                    entity_registry, device_registry, entry.entry_id, device_id, device_name, property_code
-                )
-                entity = ExtraTuyaBinarySensor(
-                    coordinator=coordinator,
-                    device_id=device_id,
-                    device_name=device_name,
-                    device_model=device_model,
-                    property_code=property_code,
-                    unique_id=unique_id,
-                )
-                entities.append(entity)
-            elif _is_likely_contact_sensor(property_code, value):
-                # Heuristic: property codes containing contact/door keywords with binary-like values
+            device_model = device_info.get("product_name", "Unknown")
+            device_data = coordinator.data.get(device_id, {})
+
+            if not device_data:
                 _LOGGER.debug(
-                    "Detected likely contact sensor: %s.%s = %s",
+                    "No coordinator data for device %s (%s); skipping binary sensors this pass",
                     device_id,
-                    property_code,
-                    value
+                    device_name,
                 )
+                continue
+
+            _LOGGER.debug(
+                "Processing device %s (%s) with properties: %s",
+                device_id,
+                device_name,
+                list(device_data.keys()),
+            )
+
+            for property_code, value in device_data.items():
+                property_code_lower = property_code.lower()
+                key = (device_id, property_code_lower)
+                if key in created_entities:
+                    continue
+
+                if property_code_lower in ("temp_unit_convert",):
+                    continue
+
+                should_add = False
+                if property_code_lower in binary_codes:
+                    should_add = True
+                elif _is_binary_value(value):
+                    should_add = True
+                elif _is_likely_contact_sensor(property_code, value):
+                    _LOGGER.debug(
+                        "Detected likely contact sensor: %s.%s = %s",
+                        device_id,
+                        property_code,
+                        value,
+                    )
+                    should_add = True
+
+                if not should_add:
+                    continue
+
                 unique_id = _resolve_binary_unique_id(
-                    entity_registry, device_registry, entry.entry_id, device_id, device_name, property_code
+                    entity_registry,
+                    device_registry,
+                    entry.entry_id,
+                    device_id,
+                    device_name,
+                    property_code,
                 )
                 entity = ExtraTuyaBinarySensor(
                     coordinator=coordinator,
@@ -257,17 +255,15 @@ async def async_setup_entry(
                     property_code=property_code,
                     unique_id=unique_id,
                 )
+                created_entities.add(key)
                 entities.append(entity)
-    
-    if not entities:
-        _LOGGER.warning(
-            "No binary sensor entities created for devices: %s. "
-            "This may indicate devices have no binary properties or use unrecognized property codes.",
-            device_ids
-        )
-    
-    _LOGGER.info("Created %d binary sensor entities", len(entities))
-    async_add_entities(entities)
+
+        if entities:
+            _LOGGER.info("Created %d binary sensor entities", len(entities))
+            async_add_entities(entities)
+
+    _create_new_entities()
+    entry.async_on_unload(coordinator.async_add_listener(_create_new_entities))
 
 
 class ExtraTuyaBinarySensor(CoordinatorEntity, BinarySensorEntity):
