@@ -103,6 +103,8 @@ def _get_friendly_name(property_code: str) -> str:
         "online": "Online",
         "automatic_lock": "Auto Lock",
         "rtc_lock": "RTC Lock Status",
+        # Pool chlorinator (DUO+)
+        "euv": "UV Enabled",
     }
     
     # Check exact match first

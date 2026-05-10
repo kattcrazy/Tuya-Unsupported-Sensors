@@ -19,6 +19,7 @@ from homeassistant.util import slugify
 from .const import (
     CONF_DEVICES,
     DOMAIN,
+    ENUM_SENSOR_PROPERTY_CODES,
     PROPERTY_UNIT_MAP,
     SENSOR_PROPERTY_CODES,
     TEMP_UNIT_PROPERTIES,
@@ -116,6 +117,50 @@ def _get_friendly_name(property_code: str) -> str:
         "unlock_card": "Card Unlock Count",
         "unlock_ble": "BLE Unlock Count",
         "unlock_phone_remote": "Remote Unlock Count",
+        # Pool chlorinator (DUO+ and similar)
+        "vph": "pH",
+        "cph": "pH Setpoint Current",
+        "sphb": "pH Setpoint Min",
+        "sphh": "pH Setpoint Max",
+        "csph": "pH Setpoint Target",
+        "epph": "pH Alarm",
+        "vrx": "ORP",
+        "crx": "ORP Setpoint Current",
+        "srxb": "ORP Setpoint Min",
+        "csrx": "ORP Setpoint Target",
+        "ee": "Equipment State",
+        "vsl": "Salt Level",
+        "sslb": "Salt Setpoint Min",
+        "cssl": "Salt Setpoint Target",
+        "vtm": "Water Temperature",
+        "stmb": "Temperature Setpoint Min",
+        "cstm": "Temperature Setpoint Target",
+        "vpd": "Production",
+        "vvl": "Valve Position",
+        "qpd": "Production Quantity",
+        "dbo": "Boost Duration",
+        "quv": "UV Quantity",
+        "smt": "Smart Mode",
+        "mmd": "Mode",
+        "opt": "Option",
+        "mfl": "Manual Filtration",
+        "fpl11": "Filter Program 1 Start",
+        "fpl12": "Filter Program 1 Stop",
+        "fpl21": "Filter Program 2 Start",
+        "fpl22": "Filter Program 2 Stop",
+        "tmv": "Timer Value",
+        "tms": "Timer Setpoint",
+        "ctm": "Current Time",
+        "mapi": "API Mode",
+        "mpac": "Heat Pump Mode",
+        "esp": "ESP Mode",
+        "evn": "Event Mode",
+        "almp1": "Alarm 1",
+        "almp2": "Alarm 2",
+        "epac": "Heat Pump State",
+        "sync": "Sync Status",
+        "don1": "Data 1",
+        "don2": "Data 2",
     }
     
     # Check exact match first
@@ -355,6 +400,28 @@ async def async_setup_entry(
                         device_model=device_model,
                         property_code=property_code,
                         unique_id=unique_id,
+                    )
+                    created_entities.add(key)
+                    entities.append(entity)
+                elif (
+                    property_code_lower in ENUM_SENSOR_PROPERTY_CODES
+                    and isinstance(value, str)
+                ):
+                    # Whitelisted enum/state strings (e.g. pool chlorinator mode/event).
+                    # Restricted to a known list so arbitrary text fields like passwords
+                    # are never exposed as sensors.
+                    unique_id = _resolve_sensor_unique_id(
+                        entity_registry, device_registry, entry.entry_id,
+                        device_id, device_name, property_code
+                    )
+                    entity = ExtraTuyaSensor(
+                        coordinator=coordinator,
+                        device_id=device_id,
+                        device_name=device_name,
+                        device_model=device_model,
+                        property_code=property_code,
+                        unique_id=unique_id,
+                        force_device_class=None,
                     )
                     created_entities.add(key)
                     entities.append(entity)

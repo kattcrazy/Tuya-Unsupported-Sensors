@@ -47,7 +47,11 @@ DISCOVERY_HELP_URL = "https://github.com/kattcrazy/tuya_unsupported_sensors#disc
 IOT_CORE_URL = "https://www.tuya.com/vas/commodity/IOT_CORE_V2"
 
 SENSOR_PROPERTY_CODES = {
-    "temperature": ["temp", "temperature", "va_temperature", "temp_current"],
+    "temperature": [
+        "temp", "temperature", "va_temperature", "temp_current",
+        # Pool chlorinator (DUO+ and similar): water temperature + setpoints
+        "vtm", "stmb", "cstm",
+    ],
     "humidity": ["humidity", "va_humidity", "humidity_value"],
     "battery": ["battery", "battery_percentage", "battery_state", "residual_electricity"],
     "battery_value": ["battery_value"],
@@ -71,6 +75,21 @@ SENSOR_PROPERTY_CODES = {
     "power_factor": ["powerfactora", "powerfactorb", "powerfactorc", "power_factor", "power_factor_b"],
     "device_status": ["devicestatus", "direction_a", "direction_b"],
     "voltage_phase_seq": ["voltage_phase_seq"],
+}
+
+# Whitelist of enum/string property codes that should still be exposed as sensors.
+# Used by sensor.py to safely surface state strings (e.g. mode/event) while skipping
+# arbitrary text values such as passwords.
+ENUM_SENSOR_PROPERTY_CODES = {
+    # Pool chlorinator (DUO+) state/mode strings
+    "epph",  # pH alarm/error label
+    "ee",    # Equipment / cover state (e.g. VOLET)
+    "mmd",   # Operating mode (e.g. SALT)
+    "mfl",   # Manual filtration state (ON/OFF)
+    "mapi",  # API / access mode (e.g. Utilisateur)
+    "mpac",  # PAC (heat pump) mode
+    "esp",   # ESP mode
+    "evn",   # Event/scheduling mode (e.g. AUTO)
 }
 
 # Config/setting properties that use temp unit (maxtemp_set etc.) - need temp_unit_convert
@@ -123,6 +142,29 @@ PROPERTY_UNIT_MAP = {
     "freq": "Hz",
     "power_factor": "",
     "power_factor_b": "",
+    # Pool chlorinator (DUO+ and similar)
+    # pH values - "pH" isn't a standard HA unit but renders fine as a custom suffix
+    "vph": "pH",
+    "cph": "pH",
+    "sphb": "pH",
+    "sphh": "pH",
+    "csph": "pH",
+    # ORP / redox in millivolts
+    "vrx": "mV",
+    "crx": "mV",
+    "srxb": "mV",
+    "csrx": "mV",
+    # Salt concentration (typical European salt chlorinators report g/L)
+    "vsl": "g/L",
+    "sslb": "g/L",
+    "cssl": "g/L",
+    # Production / valve / dosing percentages
+    "vpd": "%",
+    "vvl": "%",
+    "qpd": "%",
+    "quv": "%",
+    # Boost / operating duration in seconds
+    "dbo": "s",
 }
 
 BINARY_SENSOR_PROPERTY_CODES = {
