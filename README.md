@@ -1,5 +1,7 @@
 # Tuya Unsupported Sensors
 
+This intergration will continue to support already mapped devices from previous feature requests. Otherwise, see below. 
+
 ## Tuya Quirks as of 2026.5.0
 With Home Assistant core release 2026.5.0, Tuya quirks now enable users to submit datapoints so their device is supported in the core intergration. That means that this intergration will be uneeded in the future once all the datapoints have quirks. 
 To help with the creation and collection of quirks for public use, please do the following for any devices that are missing entities in the core Tuya intergration. I will create a Tuya quirk for your device and submit it to [tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) on your behalf. Once I've written the quirk, I will send it to you and you will need to test the quirk by following the below instructions. Once it's confirmed to be correct, I will mark the pull request as ready for review. 
