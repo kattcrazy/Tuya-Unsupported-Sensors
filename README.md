@@ -1,44 +1,49 @@
 # Tuya Unsupported Sensors
 
+## Tuya Quirks as of 2026.5.0
+With Home Assistant core release 2026.5.0, Tuya quirks now enable users to submit datapoints so their device is supported in the core intergration. That means that this intergration will be uneeded in the future once all the datapoints have quirks. 
+To help with the creation and collection of quirks for public use, please do the following for any devices that are missing entities in the core Tuya intergration. I will create a Tuya quirk for your device and submit it to [tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) on your behalf. Once I've written the quirk, I will send it to you and you will need to test the quirk by following the below instructions. Once it's confirmed to be correct, I will mark the pull request as ready for review. 
+
+
+### Add support for a device
+Make an issue (template QUIRK) in the issues tab with the following debugging responses. If you don't include these, I will simply refer you back to this documentation.
+
+#### Tuya Dev Debug (don't have an account? see [tutorial](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#tuya-developer-api))
+1. Go to https://platform.tuya.com/ > cloud > project management > open project > devices
+2. Find your device and copy its ID
+3. Go to https://platform.tuya.com/cloud/explorer > device control > query properties
+4. Paste your device's ID and submit
+#### Home Assistant debug
+1. Go the the **core** Tuya integration in your installation- **not** this intergration
+2. Navigate to your unsupported device
+3. Click download diagnostics
+
+### Testing a quirk
+
+1. Make the folder `<config>/tuya_quirks/` in your Home Assistant directory
+2. Place the file I provide in that location, keeping the name the same 
+3. Reload the core Tuya intergration
+4. Check your device for entities and confirm if they are correct
+
+### Tuya Developer API
+Follow [this guide](https://github.com/azerty9971/xtend_tuya/blob/v4.2.4/docs/cloud_credentials.md) until step 5 to see how to set up the API credentials
+> Thanks to [@azerty9971](https://github.com/azerty9971) for the thorough guide
+
+---
+
 An intergration that creates devices & entites for sensors otherwise unsupported by the main tuya/smart life intergration. Unlike Tuya Local and Local Tuya, this uses the cloud-based API.
+
+> This intergration supports mappings for read-only sensors, anything that requires control (e.g: lights) will not be added, this is for read-only sensors as manging controls far exceeds my/AI's skill level. However, the core Tuya intergration can read and write. 
 
 | Core Tuya | Tuya Unsupported Sensors |
 |-----------|--------------------------|
 | ![Unsupported](images/Unsupported.png) | ![Supported](images/Supported.png) |
 
-### Supported sensor mappings
-- Temperature & Humidity (001TH0202)
-- Door/contact (001D02CB3S)
-- PIR motion
-- Presence
-- Electric meter
-- Smart lock
-- Wifi Dual Meter (ebbbe5b6045c36c862js1e)
-
-### Unsupported
-Anything that requires control (e.g: lights) will not be added, this is for read-only sensors as manging controls far exceeds my/AI's skill level!
-
-### Request a new sensor/entity
-If you have a read-only sensor you'd like to have added, you can submit an feature request in the issues tab with the following debugging response. If you don't include this, I will simply refer you back to this documentation.
-1. Go to https://platform.tuya.com/ > cloud > project management > open project > devices
-2. Find your device and write/copy its ID
-3. Go to https://platform.tuya.com/cloud/explorer > device control > Query properties
-4. Input your device's ID and submit
-
-## Installation 
-### HACS (Reccomended)
+## Install this intergration
 
 <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=kattcrazy&category=intergration&repository=tuya-unsupported-sensors" target="_blank" rel="noreferrer noopener"><img src="https://my.home-assistant.io/badges/hacs_repository.svg" alt="Open your Home Assistant instance and open a repository inside the Home Assistant Community Store." /></a>
 
-### Manual
-1. Download the folder named `tuya_unsupported_sensors` inside `custom_components`
-2. Drag/upload it into your `custom_components` folder inside your Home Assistant folder (for Home Assistant Docker, `custom_components` is inside the folder that holds your `configuration.yaml`), and restart Home Assistant
-
-## Tuya Developer API
-Follow [this guide](https://github.com/azerty9971/xtend_tuya/blob/v4.2.4/docs/cloud_credentials.md) until step 5 to see how to set up the API credentials
-> Thanks to [@azerty9971](https://github.com/azerty9971) for the thorough guide
-
-## Troubleshooting
+## Troubleshooting for this intergration
 
 ### Trouble finding devices/incorrect API key
 
@@ -71,7 +76,6 @@ There are two possible causes. One, you are using the wrong datacenter. Two, you
 3. If all the datacenters fail, look for one that says "No permissions. Your subscription to cloud development plan has expired". To renew your Tuya IoT Core (which is what you need for this), go to https://www.tuya.com/vas/commodity/IOT_CORE_V2 and click "Buy now". It'll take you to a page where there should be a button to apply for a extension. I use the following details or similar when applying, and so far I haven't been denied.
 
 ![extension_details](https://github.com/user-attachments/assets/237517d8-7ff2-4e69-bdf3-70a3c7fe6195)
-
 
 ## License
 
