@@ -10,7 +10,14 @@ To help with the creation and collection of quirks for public use (🎉), please
 ### Contribute details for a quirk
 Make an issue (template QUIRK) in the issues tab with the following debugging responses. If you don't include these, I will simply refer you back to this documentation.
 
-#### Tuya Dev Debug (don't have an account? see [tutorial](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#tuya-developer-api))
+#### Tuya Dev Info (don't have an account? see [tutorial](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#tuya-developer-api))
+
+1. Go to https://platform.tuya.com/ > cloud > project management > open project > devices
+2. Find your device and press debug device
+3. Select your device again
+4. Copy the Device ID and Product Category
+
+#### Tuya Dev Debug  (don't have an account? see [tutorial](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#tuya-developer-api))
 1. Go to https://platform.tuya.com/ > cloud > project management > open project > devices
 2. Find your device and copy its ID
 3. Go to https://platform.tuya.com/cloud/explorer > device control > query properties
@@ -18,7 +25,7 @@ Make an issue (template QUIRK) in the issues tab with the following debugging re
 
 When sharing this, please don't share the request url as it contains sensitive parameters.
 
-#### Home Assistant debug
+#### Home Assistant Diagnostics
 1. Go the the **core** Tuya integration in your installation- **not** this intergration
 2. Navigate to your unsupported device
 3. Click download diagnostics
