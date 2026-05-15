@@ -46,11 +46,11 @@ This is an intergration that creates devices & entites for sensors otherwise uns
 |-----------|--------------------------|
 | ![Unsupported](images/Unsupported.png) | ![Supported](images/Supported.png) |
 
-## Install this intergration
+## Install
 
 <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=kattcrazy&category=intergration&repository=tuya-unsupported-sensors" target="_blank" rel="noreferrer noopener"><img src="https://my.home-assistant.io/badges/hacs_repository.svg" alt="Open your Home Assistant instance and open a repository inside the Home Assistant Community Store." /></a>
 
-## Troubleshooting for this intergration
+## Troubleshooting
 
 ### Trouble finding devices/incorrect API key
 
