@@ -5,8 +5,7 @@ This intergration will continue to support already mapped devices from previous 
 ## Tuya Quirks as of 2026.5.0
 With Home Assistant core release 2026.5.0, Tuya quirks now enable users to edit, add, and map datapoints so their device is supported in the core intergration. That means that this custom intergration will be uneeded in the future once all the datapoints have quirks. 
 
-To help with the creation and collection of quirks for public use, please do [the following](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#contribute-details-for-a-quirk) for any devices that are missing entities in the core Tuya intergration. I will create a Tuya quirk for your device, send it to you for testing ([instructions below](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#testing-a-quirk)), and once it's confirmed to be correct, I will make a pull request for it in [tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers), where it will hopefully be merged and used in the next core release.
-
+To help with the creation and collection of quirks for public use (🎉), please help out by doing the below instructions (also found in this intergration's README) for any devices that are missing entities in the core Tuya intergration. I will create a Tuya quirk for your device, send it to you for testing, and once it's confirmed to be correct, I will make a pull request for it in [tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers), where it will hopefully be merged and used in the next core release. Then, you'll be able to use your device using the core intergration!
 
 ### Contribute details for a quirk
 Make an issue (template QUIRK) in the issues tab with the following debugging responses. If you don't include these, I will simply refer you back to this documentation.
@@ -16,6 +15,9 @@ Make an issue (template QUIRK) in the issues tab with the following debugging re
 2. Find your device and copy its ID
 3. Go to https://platform.tuya.com/cloud/explorer > device control > query properties
 4. Paste your device's ID and submit
+
+When sharing this, please don't share the request url as it contains sensitive parameters.
+
 #### Home Assistant debug
 1. Go the the **core** Tuya integration in your installation- **not** this intergration
 2. Navigate to your unsupported device
