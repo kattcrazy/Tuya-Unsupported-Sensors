@@ -3,11 +3,12 @@
 This intergration will continue to support already mapped devices from previous feature requests. Otherwise, see below. 
 
 ## Tuya Quirks as of 2026.5.0
-With Home Assistant core release 2026.5.0, Tuya quirks now enable users to submit datapoints so their device is supported in the core intergration. That means that this intergration will be uneeded in the future once all the datapoints have quirks. 
-To help with the creation and collection of quirks for public use, please do the following for any devices that are missing entities in the core Tuya intergration. I will create a Tuya quirk for your device and submit it to [tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers) on your behalf. Once I've written the quirk, I will send it to you and you will need to test the quirk by following the below instructions. Once it's confirmed to be correct, I will mark the pull request as ready for review. 
+With Home Assistant core release 2026.5.0, Tuya quirks now enable users to edit, add, and map datapoints so their device is supported in the core intergration. That means that this custom intergration will be uneeded in the future once all the datapoints have quirks. 
+
+To help with the creation and collection of quirks for public use, please do [the following](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#contribute-details-for-a-quirk) for any devices that are missing entities in the core Tuya intergration. I will create a Tuya quirk for your device, send it to you for testing ([instructions below](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#testing-a-quirk)), and once it's confirmed to be correct, I will make a pull request for it in [tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers), where it will hopefully be merged and used in the next core release.
 
 
-### Add support for a device
+### Contribute details for a quirk
 Make an issue (template QUIRK) in the issues tab with the following debugging responses. If you don't include these, I will simply refer you back to this documentation.
 
 #### Tuya Dev Debug (don't have an account? see [tutorial](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#tuya-developer-api))
@@ -33,9 +34,11 @@ Follow [this guide](https://github.com/azerty9971/xtend_tuya/blob/v4.2.4/docs/cl
 
 ---
 
-An intergration that creates devices & entites for sensors otherwise unsupported by the main tuya/smart life intergration. Unlike Tuya Local and Local Tuya, this uses the cloud-based API.
+## Pre-Quirk Intergration Information
 
-> This intergration supports mappings for read-only sensors, anything that requires control (e.g: lights) will not be added, this is for read-only sensors as manging controls far exceeds my/AI's skill level. However, the core Tuya intergration can read and write. 
+This is an intergration that creates devices & entites for sensors otherwise unsupported by the main tuya/smart life intergration. Unlike Tuya Local and Local Tuya, this uses the cloud-based API.
+
+> This intergration supports mappings for read-only sensors, as manging controls far exceeds my/AI's skill level. However, the core Tuya intergration can read and write. 
 
 | Core Tuya | Tuya Unsupported Sensors |
 |-----------|--------------------------|
@@ -84,8 +87,6 @@ There are two possible causes. One, you are using the wrong datacenter. Two, you
 This project uses the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). See [LICENSE](LICENSE) for the full legal text. In short: you can use, change, and share it freely. If you distribute a modified version, you must offer it under the same license and share the source too, so the work (and its derivatives) stay open. You cannot take this code, tweak it, and ship it as a closed product.
 
 ## About
-This is my first github repo and my first time making a Home Assistant intergration. Originally a python script, I have tested it on my own setup and it works well! Please report an issue if something doesn't work, I'll try my best to fix it.
+This is my first github repo and my first time making a Home Assistant intergration. Originally a python script, I have tested it on my own setup and it works well! Please report an issue if something doesn't work, I'll try my best to fix it. Contributions/PRs welcome. 
 
-Contributions/PRs welcome. 
-
-If this helps you out a heap, consider supporting me [here](https://kattcrazy.nz/product/support-me/) :)
+If this helps you out a heap or you appreciate my work in adding quirks, consider supporting me [here](https://kattcrazy.nz/product/support-me/) :)
