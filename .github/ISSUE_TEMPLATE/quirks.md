@@ -8,13 +8,8 @@ assignees: kattcrazy
 
 ---
 
-**Tuya Dev Info**
 <!--
-Don't have an account? see [tutorial](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#tuya-developer-api
-1. Go to https://platform.tuya.com/ > cloud > project management > open project > devices
-2. Find your device and press debug device
-3. Select your device again
-4. Copy the Device ID and Product Category
+What is your device? Contact sensor? Temperature sensor? Light bulb?
 -->
 
 **Tuya Dev Debug**
