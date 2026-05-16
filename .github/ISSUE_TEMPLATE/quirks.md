@@ -2,7 +2,7 @@
 name: QUIRKS
 about: 'Provide a device''s datapoints so I can make a quirk for public use. Devices
   are no longer added to this intergration, only contributed to core Tuya. '
-title: "[QUIRK] devicecategory_deviceid "
+title: "[QUIRK] your device category and product ID here"
 labels: QUIRKS
 assignees: kattcrazy
 
@@ -10,6 +10,7 @@ assignees: kattcrazy
 
 <!--
 What is your device? Contact sensor? Temperature sensor? Light bulb?
+ALL FIELDS REQUIRED
 -->
 
 **Tuya Dev Debug**
