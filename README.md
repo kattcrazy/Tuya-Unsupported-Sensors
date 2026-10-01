@@ -8,12 +8,15 @@
 
 # Tuya Unsupported Sensors
 
-This intergration will continue to support already mapped devices from previous feature requests. Otherwise, see below. 
+**This integration will continue to support already mapped devices and datapoints. **
+I will be working towards a future where the Home Assistant community doesn't need this integration because devices are be supported in Tuya Quirks. This means I will not be taking any new device requests. See below for information about Tuya Quirks.
 
 ## Tuya Quirks as of 2026.5.0
-With Home Assistant core release 2026.5.0, Tuya quirks now enable users to edit, add, and map datapoints so their device is supported in the core intergration. That means that this custom intergration will be uneeded in the future once all the datapoints have quirks. 
+Home Assistant core release 2026.5.0 introduced an exciting feature called Tuya device 'quirks', aka datapoint mapping files. Quirks enable users to edit/add/remove/map datapoints so that they are supported in the core HA integration- meaning it will then also work for everyone else who has that device. 
 
-To help with the creation and collection of quirks for public use (🎉), please help out by doing the below instructions for any devices that are missing entities in the core Tuya intergration. You can put all the below info in an issue in [tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers/issues) where some people like myself will help make a quirk. Once you've tested it and confirmed it works, a pull request can be created and hopefully merged to be used in the next core release. Then, you'll be able to use your device using the core intergration!
+**To help with the creation and collection of device quirks for the community, please help out by doing the below instructions for any devices that are missing entities when using the core Tuya integration. **
+
+You can put all the below info in an issue in [tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers/issues), NOT THIS REPO, where the amazing contributors will help build a quirk file. Once you've tested the quirk and confirmed it works, a pull request can be created and hopefully merged to be used in the next core release. Then, you -and others- be able to natively see/control entities for that device using the core integration!
 
 ### Contribute details for a quirk
 Make an issue (template Feature Request) in the issues tab of [tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers/issues) with the following debugging responses.
@@ -43,13 +46,13 @@ When sharing this, please don't share the request url as it contains sensitive p
 Follow [this guide](https://github.com/azerty9971/xtend_tuya/blob/v4.2.4/docs/cloud_credentials.md) until step 5 to see how to set up the API credentials
 > Thanks to [@azerty9971](https://github.com/azerty9971) for the thorough guide
 
----
+## What if I can't be bothered to make a quirk and help others?
 
-## Pre-Quirk Intergration Information
+Use this integration I guess! **However, be aware I won't be adding support for extra devices and datapoints that aren't already working here. **
 
-This is an intergration that creates devices & entites for sensors otherwise unsupported by the main tuya/smart life intergration. Unlike Tuya Local and Local Tuya, this uses the cloud-based API.
+Tuya Unsupported Sensors creates devices & entities for sensors otherwise unsupported by the main tuya/smart life intergration. Unlike Tuya Local and Local Tuya, this uses the cloud-based API.
 
-> This intergration supports mappings for read-only sensors, as manging controls far exceeds my/AI's skill level. However, the core Tuya intergration can read and write. 
+**Sensors will be READ ONLY,** as manging read-write entities far exceeds my/AI's skill level.
 
 | Core Tuya | Tuya Unsupported Sensors |
 |-----------|--------------------------|
@@ -58,6 +61,8 @@ This is an intergration that creates devices & entites for sensors otherwise uns
 ## Install
 
 <a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=kattcrazy&category=intergration&repository=tuya-unsupported-sensors" target="_blank" rel="noreferrer noopener"><img src="https://my.home-assistant.io/badges/hacs_repository.svg" alt="Open your Home Assistant instance and open a repository inside the Home Assistant Community Store." /></a>
+
+See [tutorial](https://github.com/kattcrazy/Tuya-Unsupported-Sensors#tuya-developer-api) if you don't already have an API key.
 
 ## Troubleshooting
 
@@ -73,7 +78,7 @@ This is an intergration that creates devices & entites for sensors otherwise uns
 
 ### No entities in a device/unsupported/missing data
 
-Refer to [the guide](https://github.com/kattcrazy/tuya_unsupported_sensors?tab=readme-ov-file#request-a-new-sensorentity) on how to find the debugging response. Create an issue with that response and I will add the mappings for your entities. 
+I will not be adding new devices or datapoints as I would like to encourage the use of quirks which benefit the whole community. 
 
 ### Error 1010 (Token Invalid)
 
@@ -98,6 +103,6 @@ There are two possible causes. One, you are using the wrong datacenter. Two, you
 This project uses the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). See [LICENSE](LICENSE) for the full legal text. In short: you can use, change, and share it freely. If you distribute a modified version, you must offer it under the same license and share the source too, so the work (and its derivatives) stay open. You cannot take this code, tweak it, and ship it as a closed product.
 
 ## About
-This is my first github repo and my first time making a Home Assistant intergration. Originally a python script, I have tested it on my own setup and it works well! Please report an issue if something doesn't work, I'll try my best to fix it. Contributions/PRs welcome. 
+Fun fact, this was my first-ever GitHub repo, and my first HA integration. It was originally a python script!
 
-If this helps you out a heap or you appreciate my work in adding quirks, consider supporting me [here](https://kattcrazy.nz/product/support-me/) :)
+If this helps you out a heap or you appreciate my work, consider supporting me [here](https://kattcrazy.nz/product/support-me/) :)
