@@ -8,7 +8,7 @@
 
 # Tuya Unsupported Sensors
 
-**This integration will continue to support already mapped devices and datapoints. **
+**This integration will continue to support already mapped devices and datapoints.**
 I will be working towards a future where the Home Assistant community doesn't need this integration because devices are be supported in Tuya Quirks. This means I will not be taking any new device requests. See below for information about Tuya Quirks.
 
 ## Tuya Quirks as of 2026.5.0
