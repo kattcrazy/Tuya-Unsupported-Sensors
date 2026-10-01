@@ -14,7 +14,7 @@ I will be working towards a future where the Home Assistant community doesn't ne
 ## Tuya Quirks as of 2026.5.0
 Home Assistant core release 2026.5.0 introduced an exciting feature called Tuya device 'quirks', aka datapoint mapping files. Quirks enable users to edit/add/remove/map datapoints so that they are supported in the core HA integration- meaning it will then also work for everyone else who has that device. 
 
-**To help with the creation and collection of device quirks for the community, please help out by doing the below instructions for any devices that are missing entities when using the core Tuya integration. **
+**To help with the creation and collection of device quirks for the community, please help out by doing the below instructions for any devices that are missing entities when using the core Tuya integration.**
 
 You can put all the below info in an issue in [tuya-device-handlers](https://github.com/home-assistant-libs/tuya-device-handlers/issues), NOT THIS REPO, where the amazing contributors will help build a quirk file. Once you've tested the quirk and confirmed it works, a pull request can be created and hopefully merged to be used in the next core release. Then, you -and others- be able to natively see/control entities for that device using the core integration!
 
@@ -48,7 +48,7 @@ Follow [this guide](https://github.com/azerty9971/xtend_tuya/blob/v4.2.4/docs/cl
 
 ## What if I can't be bothered to make a quirk and help others?
 
-Use this integration I guess! **However, be aware I won't be adding support for extra devices and datapoints that aren't already working here. **
+Use this integration I guess! **However, be aware I won't be adding support for extra devices and datapoints that aren't already working here.**
 
 Tuya Unsupported Sensors creates devices & entities for sensors otherwise unsupported by the main tuya/smart life intergration. Unlike Tuya Local and Local Tuya, this uses the cloud-based API.
 
