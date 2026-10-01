@@ -1,3 +1,7 @@
+<!-- project-directory-status -->
+[![Maintained (low priority)](https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fraw.githubusercontent.com%2Fkattcrazy%2Fkattcrazy%2Fmain%2Fbadges%2Ftuya-unsupported-sensors.json)](https://github.com/kattcrazy/kattcrazy/blob/main/PROJECT-DIRECTORY.md)
+<!-- /project-directory-status -->
+
 # Tuya Unsupported Sensors
 
 This intergration will continue to support already mapped devices from previous feature requests. Otherwise, see below. 
